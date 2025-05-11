@@ -22,7 +22,7 @@ function App() {
 
   const handleFetchNews = async () => {
     try {
-      const data = await httpClient.get("/api/sources", {
+      const data = await httpClient.get("/api/news", {
         params: {
           q: searchTerm,
           category: selectedCategory,
