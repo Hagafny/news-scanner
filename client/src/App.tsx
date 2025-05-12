@@ -1,64 +1,61 @@
-import { useState } from "react";
 import "./App.css";
-import { CategorySelect } from "./components/CategorySelect";
+import { useEffect, useState } from "react";
+import { CategorySelect, Option } from "./components/CategorySelect";
 import httpClient from "./http-client";
 import { QueryInput } from "./components/QueryInput";
 import { NewsDisplay } from "./components/NewsDisplay";
 import { FetchNewsButton } from "./components/FetchNewsButton";
-
-type Article = {
-  content: string;
-  description: string;
-  source: string;
-  url: string;
-  title: string;
-  urlToImage: string;
-};
+import type { Article } from "./types";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
-  const [totalResults, setTotalResults] = useState(0);
-
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [categories, setCategories] = useState<Option[]>([]);
   const handleFetchNews = async () => {
     try {
-      const data = await httpClient.get("/api/news", {
+      const response = await httpClient.get("/api/news", {
         params: {
           q: searchTerm,
           category: selectedCategory,
         },
       });
 
-      console.log(data.data.articles[0]);
-
-      setTotalResults(data.data.totalResults);
+      setArticles(response.data);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await httpClient.get("/api/categories");
+
+      const categories = response.data.map((category: string) => ({
+        displayName: category,
+        value: category,
+      }));
+
+      console.log(categories);
+
+      setCategories(categories);
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="app">
       <div className="filters">
         <QueryInput value={searchTerm} onChange={setSearchTerm} />
         <CategorySelect
-          options={[
-            {
-              displayName: "Technology",
-              value: "technology",
-            },
-            {
-              displayName: "Business",
-              value: "business",
-            },
-          ]}
+          options={categories}
           selectedOptions={selectedCategory}
           onChange={setSelectedCategory}
         />
         <FetchNewsButton onClick={handleFetchNews} />
       </div>
-      <div className="totalResults">{totalResults} results found</div>
-      <NewsDisplay />
+      <NewsDisplay articles={articles} />
     </div>
   );
 }

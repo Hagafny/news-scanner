@@ -32,3 +32,21 @@ body {
 .submitNewsButton {
   height: 40px;
 }
+
+.articlesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.articleCard {
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.articleCard img {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+}

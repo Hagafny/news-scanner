@@ -16,7 +16,7 @@ const MenuProps = {
   },
 };
 
-interface Option {
+export interface Option {
   displayName: string;
   value: string;
 }
