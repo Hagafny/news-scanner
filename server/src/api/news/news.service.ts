@@ -1,7 +1,8 @@
-import NewsAPI, { NewsSource, NewsArticle } from "newsapi";
-import OpenAI from "openai";
+import { NewsSource, NewsArticle } from "newsapi";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";
+import NewsAPIWrapper from "../../services/newsApiWrapper";
+import OpenAIWrapper from "../../services/openAIWrapper";
 
 const NewsSummary = z.object({
   summary: z.string(),
@@ -65,7 +66,7 @@ const getSummary = async ({
   Article: ${content}
   `;
 
-  const openai = OpenAPIWrapper.getInstance();
+  const openai = OpenAIWrapper.getInstance();
 
   const summaryResponse = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -88,31 +89,3 @@ export default {
   getArticles,
   getSummary,
 };
-
-class NewsAPIWrapper {
-  private static instance: NewsAPI;
-
-  private constructor() {}
-
-  public static getInstance(): NewsAPI {
-    if (!NewsAPIWrapper.instance) {
-      NewsAPIWrapper.instance = new NewsAPI(process.env.NEWS_API_KEY || "");
-    }
-    return NewsAPIWrapper.instance;
-  }
-}
-
-class OpenAPIWrapper {
-  private static instance: OpenAI;
-
-  private constructor() {}
-
-  public static getInstance(): OpenAI {
-    if (!OpenAPIWrapper.instance) {
-      OpenAPIWrapper.instance = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
-    }
-    return OpenAPIWrapper.instance;
-  }
-}
