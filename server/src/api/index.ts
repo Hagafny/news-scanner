@@ -10,5 +10,6 @@ router.get("/", (req: Request, res: Response) => {
 
 router.get("/categories", categoriesController.getCategories);
 router.get("/news", newsController.getNews);
+router.post("/summary", newsController.getSummary);
 
 export default router;

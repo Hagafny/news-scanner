@@ -1,9 +1,1 @@
-[
-  "Business",
-  "Entertainment",
-  "General",
-  "Health",
-  "Science",
-  "Sports",
-  "Technology"
-]
+["Business", "General", "Health", "Science", "Sports", "Technology"]

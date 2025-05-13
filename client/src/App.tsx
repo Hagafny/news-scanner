@@ -5,13 +5,14 @@ import httpClient from "./http-client";
 import { QueryInput } from "./components/QueryInput";
 import { NewsDisplay } from "./components/NewsDisplay";
 import { FetchNewsButton } from "./components/FetchNewsButton";
-import type { Article } from "./types";
+import { useArticles } from "./articlesContext";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
-  const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
+  const { articles, setArticles } = useArticles();
+
   const handleFetchNews = async () => {
     try {
       const response = await httpClient.get("/api/news", {
@@ -35,8 +36,6 @@ function App() {
         displayName: category,
         value: category,
       }));
-
-      console.log(categories);
 
       setCategories(categories);
     };
