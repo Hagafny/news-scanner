@@ -1,4 +1,4 @@
-import NewsAPInitiator, { NewsSource, NewsArticle } from "newsapi";
+import NewsAPI, { NewsSource, NewsArticle } from "newsapi";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";
@@ -20,7 +20,7 @@ export const getSources = async ({
   country,
 }: getSourceProps): Promise<NewsSource[]> => {
   try {
-    const newsapi = NewsAPI.getInstance();
+    const newsapi = NewsAPIWrapper.getInstance();
     const sourcesResponse = await newsapi.v2.sources({
       language,
       country,
@@ -40,7 +40,7 @@ const getArticles = async ({
   q: string;
   sources: string;
 }): Promise<NewsArticle[]> => {
-  const newsapi = NewsAPI.getInstance();
+  const newsapi = NewsAPIWrapper.getInstance();
   const articlesResponse = await newsapi.v2.everything({ q, sources });
   return articlesResponse.articles;
 };
@@ -65,9 +65,7 @@ const getSummary = async ({
   Article: ${content}
   `;
 
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+  const openai = OpenAPIWrapper.getInstance();
 
   const summaryResponse = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -91,15 +89,30 @@ export default {
   getSummary,
 };
 
-class NewsAPI {
-  private static instance: NewsAPInitiator;
+class NewsAPIWrapper {
+  private static instance: NewsAPI;
 
   private constructor() {}
 
-  public static getInstance(): NewsAPInitiator {
-    if (!NewsAPI.instance) {
-      NewsAPI.instance = new NewsAPInitiator(process.env.NEWS_API_KEY || "");
+  public static getInstance(): NewsAPI {
+    if (!NewsAPIWrapper.instance) {
+      NewsAPIWrapper.instance = new NewsAPI(process.env.NEWS_API_KEY || "");
     }
-    return NewsAPI.instance;
+    return NewsAPIWrapper.instance;
+  }
+}
+
+class OpenAPIWrapper {
+  private static instance: OpenAI;
+
+  private constructor() {}
+
+  public static getInstance(): OpenAI {
+    if (!OpenAPIWrapper.instance) {
+      OpenAPIWrapper.instance = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+    }
+    return OpenAPIWrapper.instance;
   }
 }
