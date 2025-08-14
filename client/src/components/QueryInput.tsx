@@ -15,8 +15,15 @@ export const QueryInput = ({ onChange, value = "" }: QueryInputProps) => {
   return (
     <div className={"query-input"}>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="query-input-label">
-          <div style={{ color: "white" }}>{"Search Term"}</div>
+        <InputLabel
+          id="query-input-label"
+          sx={{
+            "&.Mui-focused": {
+              color: "#7F56D9",
+            },
+          }}
+        >
+          <div>{"Search"}</div>
         </InputLabel>
         <OutlinedInput
           style={{ color: "white" }}
@@ -25,6 +32,14 @@ export const QueryInput = ({ onChange, value = "" }: QueryInputProps) => {
           onChange={handleChange}
           placeholder={"What to search for?"}
           label={"Search"}
+          sx={{
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#7F56D9",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#7F56D9",
+            },
+          }}
         />
       </FormControl>
     </div>

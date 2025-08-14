@@ -42,8 +42,15 @@ export const CategorySelect = ({
   return (
     <div className={"select"}>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="category-label">
-          <div style={{ color: "white" }}>Category</div>
+        <InputLabel
+          id="category-label"
+          sx={{
+            "&.Mui-focused": {
+              color: "#7F56D9",
+            },
+          }}
+        >
+          <div>Category</div>
         </InputLabel>
         <Select
           style={{ color: "white" }}
@@ -52,6 +59,14 @@ export const CategorySelect = ({
           onChange={handleChange}
           input={<OutlinedInput label="Category" />}
           MenuProps={MenuProps}
+          sx={{
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#7F56D9",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#7F56D9",
+            },
+          }}
         >
           {options.map((option) => (
             <MenuItem key={option.value} value={option.value}>

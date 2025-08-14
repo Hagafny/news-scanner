@@ -1,27 +1,58 @@
 body {
-  background: black;
-  color: white;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .app {
-  padding: 10px;
-  color: white;
-  max-width: 75vw;
-  margin: 0 auto;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-title {
+  color: #000;
+  font-family: Commissioner, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.logo {
+  height: 16px;
+  width: 77px;
+}
 .filters {
   display: flex;
-  justify-content: center;
-  gap: 16px;
+  justify-content: start;
+  gap: 24px;
 }
 
 .select,
 .query-input {
-  background-color: #242424;
   border-radius: 6px;
+}
+
+.select input,
+.query-input input {
+  color: #000 !important;
+}
+
+.select .MuiInputBase-input,
+.query-input .MuiInputBase-input {
+  color: #000 !important;
+}
+
+.select > div,
+.query-input > div {
+  margin: 0;
 }
 
 .submitNewsButtonContainer {
@@ -30,7 +61,10 @@ body {
 }
 
 .submitNewsButton {
-  height: 40px;
+  height: 100% !important;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 2.46px;
 }
 
 .articlesGrid {

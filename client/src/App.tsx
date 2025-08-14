@@ -45,6 +45,10 @@ function App() {
 
   return (
     <div className="app">
+      <header className="header">
+        <img src="/logo.svg" alt="News Scanner Logo" className="logo" />
+        <div className="header-title">News Scanner</div>
+      </header>
       <div className="filters">
         <QueryInput value={searchTerm} onChange={setSearchTerm} />
         <CategorySelect
