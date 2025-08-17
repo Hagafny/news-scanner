@@ -13,6 +13,7 @@ interface ArticleCardProps {
 }
 
 export const NewsDisplay = ({ articles }: NewsDisplayProps) => {
+  console.log(articles);
   const { updateArticle } = useArticles();
   const handleSummaryClick = async (article: Article) => {
     try {
@@ -53,7 +54,11 @@ const ArticleCard = ({ article, onSummaryClick }: ArticleCardProps) => {
     <div className="articleCard">
       <img src={article.urlToImage} alt={article.title} />
       <h3>{article.title}</h3>
-      <p>{article.description}</p>
+      <div className="articleCardDescription">
+        <p>Description: {article.description}</p>
+        <p>Source: {article.source.name}</p>
+      </div>
+
       {article.summary ? (
         <div>
           <p>Summary: {article.summary}</p>
@@ -65,6 +70,9 @@ const ArticleCard = ({ article, onSummaryClick }: ArticleCardProps) => {
           color="primary"
           fullWidth
           onClick={() => onSummaryClick(article)}
+          sx={{
+            backgroundColor: "#7F56D9",
+          }}
         >
           AI Summary
         </Button>
