@@ -1,89 +1,131 @@
+# Darrow – News Scanner (Fullstack Assignment)
 
-# News Legal Scanner
+[![Figma](https://img.shields.io/badge/Figma-Design-blue)](https://www.figma.com/design/dzPZ6UHCxFy6Daby8MRjad/Full-Stack-Task--Copy-?node-id=32-2153&p=f&m=dev)
 
-One of the many things we do at Darrow is scan news for legal violations. In this exercise, we will aim to create a news legal scanner page, displaying recent news and using an LLM to detect legal violations. We will fetch the news articles from newsapi.org.
+One of the many things we do at Darrow is scan the news for legal violations 🙂.  
+In this exercise, we aim to create a news legal violation scanner page that displays recent news and utilizes an LLM to detect legal violations.
 
-<Insert image of the final product. not this ugly wireframe>
+We will fetch the news articles from [newsapi.org](https://newsapi.org).  
+(You received a NewsAPI access key with this task.)
 
-## Step 1: QueryInput
+![News Grid](media/grid.png)
 
-`<QueryInput />` is a simple input controlled component. It accepts a value and an onChange method from the outside.
+### Step 1: QueryInput
 
-<Show an image of the QueryInput (Without CategorySelect working) that shows how something is typed inside it (“Violation”)>
+`<QueryInput />` is a simple input-controlled component.  
+It accepts a `value` and an `onChange` method from the outside.
 
-## Step 2: CategorySelect
+![QueryInput](media/step1.png)
 
-Implement the category filter (show just the news of the selected category). The available categories should be fetched from the server.
+---
 
-## Step 3: NewsDisplay
+### Step 2: CategorySelect
 
-<Show an image of the News Grid>
+`<CategorySelect />` is the category filter (show just the news of the selected category).
 
-What do we see here:
+Fetch the available categories from the server API at `/api/categories`.
 
-Clicking on “Fetch News” should fetch news from our API and display them in a grid. In our assignment, let’s type “Violation” inside our `<QuerySelect />` component.
+![CategorySelect](media/step2.png)
 
-### Server
+---
 
-For the category you chose (Step 2), fetch all sources that are in English that come from the United States. Filter to use only the first 5 sources. Fetch all news (Not headlines) from these 5 sources. Fetch 6 articles per page.
+### Step 3: NewsDisplay
 
-### Client
+Clicking the **Fetch News** button should fetch the news articles from our API at `/api/news` and display them in a grid.
 
-For each article we will show a news box containing:
+For this assignment, type “Violation” in the search input.
+
+#### Server
+
+1. For the category you chose (Step 2), retrieve all sources that are in **English** and originate from the **United States**.
+2. Filter to use only the first **5 sources**.
+3. Fetch **all news** (not just headlines) from these 5 sources.
+4. Fetch **6 articles per page**.
+
+#### Client
+
+For each article, show a news card containing:
 
 - Image
 - Title
 - Description
 - Source
-- AI Summary Button (To be discussed in Step 4)
+- **AI Summary** button (see Step 4)
 
-We want to implement an endless scroll. Once the user reaches the end of the scroll, fetch the next 6 items, until there are no more items.
+Implement an **endless scroll**: when the user reaches the end, fetch the next 6 items until there are no more.
 
-## Step 4: AI Summary
+![NewsGrid](media/step3.png)
 
-<Show an image of a model/drawer showing an AI summary and the violation>
+---
 
-Clicking on the “AI Summary” will open up a drawer to the right of the screen that will show more details regarding the news article. We want to create a new API endpoint that accepts the content of the article, injects the content into an LLM and gets back:
+### Step 4: AI Summary
 
-- A short summary of the article
-- 1-line of what type of violation the article was referring to
+Clicking the **AI Summary** button enhances the article with:
 
-We will show the new data according to the Figma design.
+- a **3‑line summary** of the article, and
+- a **1‑line** description of the violation the article refers to.
+
+Create a new API endpoint that accepts the article content, injects it into an LLM, and returns this JSON shape:
+
+```json
+{
+  "summary": "<3 lines of summary>",
+  "violation": "<1 line of the specified violation in this article>"
+}
+```
+
+Please use `openai.service.ts` — it is a wrapper over OpenAI and shares the same API.
+
+![EnhancedArticleCard](media/step4.png)
+
+---
 
 ## Additional Notes
 
 - External libraries are okay.
-- The design should be pixel-perfect as shown on Figma.
-- Think about security, we do not want the repo to share any sensitive API Keys.
+- Have a basic API design in mind.
+- Think about security — **do not commit sensitive API keys**.
+- The design should be pixel‑perfect as shown in Figma.
+
+---
 
 ## Code Template
 
-To start, we’ll be working with a Fullstack template code which we provide you here:
+### This starter template includes
 
-<Link to the exercise repo>
+#### 1) Client (React)
 
-The starter template includes:
+- `<CategorySelect />`, `<QueryInput />`, and `<FetchNewsButton />` components.
+- Basic CSS styling files.
+- `http-client.ts` — an Axios instance for making API calls. The base URL (`localhost:5000`) is already configured, so you only need to import it and call the API, e.g.:
 
-### Client (React)
-a. includes `<CategorySelect />`, `<QueryInput />` and `<FetchNewsButton />` components.
-b. basic css styling files
-c. http-client.ts - an axios instance for making api calls. The base URL (localhost:5000) is already configured so you only need to import it and pass the api URL. For example: axiosInstance.get(‘/api/news’)
+```ts
+import axiosInstance from "./http-client";
 
-### Server (ExpressJS)
-a. includes mock “Categories” file
+axiosInstance.get("/api/news");
+```
+
+#### 2) Server (ExpressJS)
+
+- Initial server and router implementation.
+- A mock `categories` file.
+- `openai.service.ts` — a wrapper around OpenAI. Insert the ApiKey and OpenAI key you received here.
+- Typings for the NewsAPI API.
+
+---
 
 ## Getting Started
 
-To run the project, follow these steps:
+1. Install dependencies
 
-1. Install dependencies:
-   ```
-   npm run install:all
-   ```
+```bash
+npm run install:all
+```
 
-2. Start both the server and the client:
-   ```
-   npm run start
-   ```
+2. Start both the server and the client
 
-Good luck!
+```bash
+npm run start
+```
+
+**Good luck!**
